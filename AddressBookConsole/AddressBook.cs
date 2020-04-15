@@ -41,7 +41,7 @@ namespace AddressBookConsole
                         break;
                     case "2":
                         this.menu.openAddressBook();
-                        //this.DisplaySubMenu();
+                        this.DisplaySubMenu();
                         break;
                     case "3":
                         this.menu.display();
