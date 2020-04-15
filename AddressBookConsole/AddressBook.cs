@@ -14,11 +14,11 @@ namespace AddressBookConsole
         IDBConnection dbConn;
         public AddressBook()
         {
-            menu = new MainMenu();
             subMenu = new SubMenu();
             person = new Person();
             dbConn = new DBConnection();
             dbConn.open();
+            menu = new MainMenu(dbConn);
         }
         public void DisplayMainMenu()
         {
@@ -28,7 +28,7 @@ namespace AddressBookConsole
             {
                 Console.WriteLine("Please enter a choice");
                 Console.WriteLine("select 1 to add new Address Book");
-                Console.WriteLine("select 2 to open Address Books");
+                Console.WriteLine("select 2 to open Address Book");
                 Console.WriteLine("select 3 to display Address Books");
                 Console.WriteLine("select 4 to save Address Book");
                 Console.WriteLine("select 5 to save as Address Book");
@@ -37,11 +37,11 @@ namespace AddressBookConsole
                 switch (choice)
                 {
                     case "1":
-                        this.menu.create(dbConn);
+                        this.menu.create();
                         break;
                     case "2":
-                        this.menu.open();
-                        this.DisplaySubMenu();
+                        this.menu.openAddressBook();
+                        //this.DisplaySubMenu();
                         break;
                     case "3":
                         this.menu.display();

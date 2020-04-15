@@ -8,16 +8,24 @@ namespace AddressBookConsole
 {
     class MainMenu : IMainMenu
     {
+        IDBConnection dbConn;
         string nameOfAddressBook;
-        public  void create(IDBConnection dbConn)
+        public MainMenu(IDBConnection dbConn)
+        {
+            this.dbConn = dbConn;
+        }
+        public  void create()
         {
             Console.WriteLine("Please enter a name of Address Book");
             nameOfAddressBook = Console.ReadLine();
             dbConn.write(nameOfAddressBook);
             Console.WriteLine("created");
         }
-        public void open()
+        public void openAddressBook()
         {
+            Console.WriteLine("Please enter a name of Address Book");
+            nameOfAddressBook = Console.ReadLine();
+            dbConn.loadAddressBookByName(nameOfAddressBook);
             Console.WriteLine("open");
         }
         public void display()

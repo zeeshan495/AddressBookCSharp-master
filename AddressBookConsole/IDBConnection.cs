@@ -11,6 +11,8 @@ namespace AddressBookConsole
         void open();
         void read();
         void write(string query);
+        void loadAddressBookByName(string query);
+        void loadByID(string spName, string ID);
         void close();
     }
 }

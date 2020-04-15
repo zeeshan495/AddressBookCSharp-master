@@ -8,8 +8,8 @@ namespace AddressBookConsole
 {
      interface IMainMenu
     {
-        void create(IDBConnection dbConn);
-        void open();
+        void create();
+        void openAddressBook();
         void display();
         void save();
         void saveAs();
