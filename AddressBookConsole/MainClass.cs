@@ -11,7 +11,7 @@ namespace AddressBookConsole
         static void Main(string[] args)
         {
             Console.WriteLine("Main");
-            AddressBook book = new AddressBook();
+            MainMenu book = new MainMenu();
             book.DisplayMainMenu();
             Console.ReadKey();
         }

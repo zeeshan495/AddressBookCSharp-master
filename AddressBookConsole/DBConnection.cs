@@ -8,63 +8,39 @@ using System.Data;
 
 namespace AddressBookConsole
 {
-    class DBConnection : IDBConnection
+    static class DBConnection
     {
-        SqlConnection conn;
-        SqlCommand cmd;
-        public DBConnection()
+        public static SqlConnection CONNECTION;
+        public static SqlCommand CMD;
+        static DBConnection()
         {
-            conn = new SqlConnection(@"Server=S828404-W10; Initial Catalog = test; integrated security=SSPI; 
+            
+        }
+        public static void openDbConnection()
+        {
+            CONNECTION = new SqlConnection(@"Server=S828404-W10; Initial Catalog = test; integrated security=SSPI; 
                                         persist security info=False; Trusted_Connection=Yes");
+            CONNECTION.Open();
         }
-        public void open()
-        {
-            conn.Open();
-            Console.WriteLine("DB open");
-        }
-        public void read()
-        {
-            Console.WriteLine("DB read");
-        }
-        public void write(string query)
-        {
-            cmd = new SqlCommand("insert into AddressBooks values('" + query +"')", conn);
-            cmd.BeginExecuteNonQuery();
-            Console.WriteLine("DB write");
-        }
-        public void loadAddressBookByName(string query)
-        {
-            cmd = new SqlCommand("select * from AddressBooks where name =('" + query + "')", conn);
-            using (SqlDataReader oReader = cmd.ExecuteReader())
-            {
-                while (oReader.Read())
-                {
-                    Console.WriteLine(oReader["name"].ToString());
-                }
-            }
-        }
-        public void loadByID(string spName, string ID)
+
+        public static void loadByID(string spName, string ID)
         {
             Console.WriteLine("Load By Id");
         }
-        public SqlDataReader NewQuery(string lQuery)
+        public static SqlDataReader NewQuery(string lQuery)
         {
+            CMD.CommandType = CommandType.StoredProcedure;
+            CMD = new SqlCommand("", CONNECTION);
 
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd = new SqlCommand("", conn);
-            //       cmd.Parameters.Add("@FirstName", SqlDbType.VarChar).Value = txtFirstName.Text;
-            //       cmd.Parameters.Add("@LastName", SqlDbType.VarChar).Value = txtLastName.Text;
-
-            cmd.ExecuteNonQuery();
-            SqlDataReader sqlDataReader = cmd.ExecuteReader();
+            CMD.ExecuteNonQuery();
+            SqlDataReader sqlDataReader = CMD.ExecuteReader();
             return sqlDataReader;
 
-
         }
-        public void close()
+        public static void closeDbConnection()
         {
-            conn.Close();
-            Console.WriteLine("DB closed");
+            CONNECTION.Close();
+            //Console.WriteLine("DB closed");
         }
     }
 }

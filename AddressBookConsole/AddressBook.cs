@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,93 +9,87 @@ namespace AddressBookConsole
 {
     class AddressBook
     {
-        IMainMenu menu;
-        ISubMenu subMenu;
-        Person person;
-        IDBConnection dbConn;
+        public bool isDataAvailable;
+        public int AddressBook_ID { get; set; }
+        public string AddressBook_Name { get; set; }
+        SqlDataReader oReader;
+        Hashtable bookslist = new Hashtable();
         public AddressBook()
         {
-            subMenu = new SubMenu();
-            person = new Person();
-            dbConn = new DBConnection();
-            dbConn.open();
-            menu = new MainMenu(dbConn);
+            loadAllAddressBooks();
         }
-        public void DisplayMainMenu()
+        public bool loadAddressBookByName(string pBookName)
         {
-            Console.WriteLine("Display main menu");
-            bool flag = true;
-            while (flag)
-            {
-                Console.WriteLine("Please enter a choice");
-                Console.WriteLine("select 1 to add new Address Book");
-                Console.WriteLine("select 2 to open Address Book");
-                Console.WriteLine("select 3 to display Address Books");
-                Console.WriteLine("select 4 to save Address Book");
-                Console.WriteLine("select 5 to save as Address Book");
-                Console.WriteLine("select 6 to close Application");
-                string choice = Console.ReadLine();
-                switch (choice)
+                if (bookslist.ContainsValue(pBookName))
                 {
-                    case "1":
-                        this.menu.create();
-                        break;
-                    case "2":
-                        this.menu.openAddressBook();
-                        this.DisplaySubMenu();
-                        break;
-                    case "3":
-                        this.menu.display();
-                        break;
-                    case "4":
-                        this.menu.save();
-                        break;
-                    case "5":
-                        this.menu.saveAs();
-                        break;
-                    case "6":
-                        flag = this.menu.close();
-                        break;
-                    default: Console.WriteLine("please enter valid option");
-                        break;
-                }      
-            }
-            dbConn.close();
+                    AddressBook_Name = pBookName;
+                    isDataAvailable = true;
+                    return isDataAvailable;
+                }
+                else
+                {
+                    isDataAvailable = false;
+                    return isDataAvailable;
+                }
         }
 
-        public void DisplaySubMenu()
+        public bool DisplayAddressBooks()
         {
-            bool flag = true;
-            while (flag)
+            if (bookslist.Count>0)
             {
-                Console.WriteLine("Please enter a choice");
-                Console.WriteLine("select 1 to add new person");
-                Console.WriteLine("select 2 to edit person details");
-                Console.WriteLine("select 3 to delete persons in Address Book");
-                Console.WriteLine("select 4 to display persons in Address Book");
-                Console.WriteLine("select 5 to go back menu");
-                string choice = Console.ReadLine();
-                switch (choice)
+                Console.WriteLine("ID   Book name");
+                foreach (string i in bookslist)
                 {
-                    case "1":
-                        this.subMenu.add();
-                        break;
-                    case "2":
-                        this.subMenu.edit();
-                        break;
-                    case "3":
-                        this.subMenu.delete();
-                        break;
-                    case "4":
-                        this.subMenu.display();
-                        break;
-                    case "5":
-                        flag = this.subMenu.goBack();
-                        break;
-                    default:
-                        Console.WriteLine("please enter valid option");
-                        break;
+                    Console.Write(i + " ");
                 }
+                isDataAvailable = true;
+                return isDataAvailable;
+            }
+            else
+            {
+                isDataAvailable = false;
+                return isDataAvailable;
+            }
+        }
+
+        public  void addAddressBook(string pBookName)
+        {
+            try
+            {
+                isDataAvailable = loadAddressBookByName(pBookName);
+                if(isDataAvailable)
+                    Console.WriteLine("Already exists. please enter a new address book.");
+                else
+                {
+                    DBConnection.openDbConnection();
+                    DBConnection.CMD = new SqlCommand("insert into AddressBooks values('" + pBookName + "')", DBConnection.CONNECTION);
+                    DBConnection.CMD.BeginExecuteNonQuery();
+                    Console.WriteLine("New Address book added");
+                }
+            }
+            finally
+            {
+                if (DBConnection.CONNECTION != null)
+                    DBConnection.closeDbConnection();
+            }
+        }
+
+        public void loadAllAddressBooks()
+        {
+            try
+            {
+                DBConnection.openDbConnection();
+                DBConnection.CMD = new SqlCommand("select * from AddressBooks", DBConnection.CONNECTION);
+                SqlDataReader oReader = DBConnection.CMD.ExecuteReader();
+                while (oReader.Read())
+                {
+                    bookslist.Add(oReader["id"].ToString(), oReader["name"].ToString());
+                }
+            }
+            finally
+            {
+                if (DBConnection.CONNECTION != null)
+                    DBConnection.closeDbConnection();
             }
         }
     }

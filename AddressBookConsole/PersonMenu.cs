@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AddressBookConsole
 {
-    class SubMenu : ISubMenu
+    class PersonMenu 
     {
        public void add()
         {
