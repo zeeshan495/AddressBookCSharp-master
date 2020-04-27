@@ -105,21 +105,5 @@ namespace AddressBookConsole
                 DBConnection.CMD.Dispose();
             }
         }
-
-        private ArrayList loadAllAddressBooks2()
-        {
-            DBConnection.openDbConnection();
-            bookslist = new ArrayList();
-            using (SqlCommand cmd = new SqlCommand("select * from AddressBooks", DBConnection.CONNECTION))
-            {
-                SqlDataReader oReader = cmd.ExecuteReader();
-                while (oReader.Read())
-                {
-                    bookslist.Add(oReader["name"].ToString());
-                }
-            }
-            DBConnection.closeDbConnection();
-            return bookslist;
-        }
     }
 }
