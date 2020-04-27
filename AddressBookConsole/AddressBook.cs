@@ -12,15 +12,16 @@ namespace AddressBookConsole
         public bool isDataAvailable;
         public int AddressBook_ID { get; set; }
         public string AddressBook_Name { get; set; }
-        SqlDataReader oReader;
-        Hashtable bookslist = new Hashtable();
+        //SqlDataReader oReader;
+        ArrayList bookslist;
         public AddressBook()
         {
+            bookslist = new ArrayList();
             loadAllAddressBooks();
         }
         public bool loadAddressBookByName(string pBookName)
         {
-                if (bookslist.ContainsValue(pBookName))
+                if (bookslist.Contains(pBookName))
                 {
                     AddressBook_Name = pBookName;
                     isDataAvailable = true;
@@ -38,9 +39,13 @@ namespace AddressBookConsole
             if (bookslist.Count>0)
             {
                 Console.WriteLine("ID   Book name");
-                foreach (string i in bookslist)
+                // ICollection keys = bookslist.Keys;
+                ArrayList arrayList = loadAllAddressBooks();
+                int i = 1;
+                foreach (var element in arrayList)
                 {
-                    Console.Write(i + " ");
+                    // Console.WriteLine(element.Key + "   "+ element.Value);
+                    Console.WriteLine(i++ +"    "+element);
                 }
                 isDataAvailable = true;
                 return isDataAvailable;
@@ -63,7 +68,7 @@ namespace AddressBookConsole
                 {
                     DBConnection.openDbConnection();
                     DBConnection.CMD = new SqlCommand("insert into AddressBooks values('" + pBookName + "')", DBConnection.CONNECTION);
-                    DBConnection.CMD.BeginExecuteNonQuery();
+                    DBConnection.CMD.ExecuteNonQuery();
                     Console.WriteLine("New Address book added");
                 }
             }
@@ -71,26 +76,50 @@ namespace AddressBookConsole
             {
                 if (DBConnection.CONNECTION != null)
                     DBConnection.closeDbConnection();
+                DBConnection.CMD.Dispose();
+               // loadAllAddressBooks();
             }
         }
 
-        public void loadAllAddressBooks()
+        public ArrayList loadAllAddressBooks()
         {
             try
             {
                 DBConnection.openDbConnection();
                 DBConnection.CMD = new SqlCommand("select * from AddressBooks", DBConnection.CONNECTION);
                 SqlDataReader oReader = DBConnection.CMD.ExecuteReader();
+                //bookslist.Clear();
+
+                bookslist = new ArrayList();
                 while (oReader.Read())
                 {
-                    bookslist.Add(oReader["id"].ToString(), oReader["name"].ToString());
-                }
+                    bookslist.Add(oReader["name"].ToString());
+                }    
+                oReader.Close();
+                return bookslist;
             }
             finally
             {
                 if (DBConnection.CONNECTION != null)
                     DBConnection.closeDbConnection();
+                DBConnection.CMD.Dispose();
             }
+        }
+
+        private ArrayList loadAllAddressBooks2()
+        {
+            DBConnection.openDbConnection();
+            bookslist = new ArrayList();
+            using (SqlCommand cmd = new SqlCommand("select * from AddressBooks", DBConnection.CONNECTION))
+            {
+                SqlDataReader oReader = cmd.ExecuteReader();
+                while (oReader.Read())
+                {
+                    bookslist.Add(oReader["name"].ToString());
+                }
+            }
+            DBConnection.closeDbConnection();
+            return bookslist;
         }
     }
 }

@@ -10,7 +10,8 @@ namespace AddressBookConsole
 {
     static class DBConnection
     {
-        public static SqlConnection CONNECTION;
+        public static SqlConnection CONNECTION = new SqlConnection(@"Server=S828404-W10; Initial Catalog = AddressBookDB; integrated security=SSPI; 
+                                        persist security info=False; Trusted_Connection=Yes");
         public static SqlCommand CMD;
         static DBConnection()
         {
@@ -18,8 +19,6 @@ namespace AddressBookConsole
         }
         public static void openDbConnection()
         {
-            CONNECTION = new SqlConnection(@"Server=S828404-W10; Initial Catalog = test; integrated security=SSPI; 
-                                        persist security info=False; Trusted_Connection=Yes");
             CONNECTION.Open();
         }
 
@@ -33,6 +32,7 @@ namespace AddressBookConsole
             CMD = new SqlCommand("", CONNECTION);
 
             CMD.ExecuteNonQuery();
+            CMD.Cancel();
             SqlDataReader sqlDataReader = CMD.ExecuteReader();
             return sqlDataReader;
 
