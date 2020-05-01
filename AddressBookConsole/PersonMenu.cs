@@ -8,21 +8,21 @@ namespace AddressBookConsole
 {
     class PersonMenu 
     {
-       public void add()
+       public void addPerson()
         {
-            Console.WriteLine("add");
+            Console.WriteLine("working in progress");
         }
         public void edit()
         {
-            Console.WriteLine("edit");
+            Console.WriteLine("working in progress");
         }
-        public void delete()
+        public void editPerson()
         {
-            Console.WriteLine("delete");
+            Console.WriteLine("working in progress");
         }
-        public void display()
+        public void displayPersons()
         {
-            Console.WriteLine("display");
+            Console.WriteLine("working in progress");
         }
         public bool goBack()
         {

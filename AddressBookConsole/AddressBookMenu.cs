@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -9,12 +10,11 @@ namespace AddressBookConsole
 {
     class AddressBookMenu
     {
-       // IDBConnection dbConn;
         string nameOfAddressBook;
         AddressBook addressBook;
+        ArrayList bookList;
         public AddressBookMenu()
         {
-            //this.dbConn = dbConn;
             addressBook = new AddressBook();
         }
         public  void createAddressBook()
@@ -40,6 +40,25 @@ namespace AddressBookConsole
                 return isAddressBookAvailable;
             }       
         }
+        public bool DisplayAddressBooks()
+        {
+            bookList = addressBook.loadAllAddressBooks();
+            if (bookList.Count > 0)
+            {
+                Console.WriteLine("ID   Book name");
+                // ICollection keys = bookslist.Keys;
+                
+                int i = 1;
+                foreach (var element in bookList)
+                {
+                    // Console.WriteLine(element.Key + "   "+ element.Value);
+                    Console.WriteLine(i++ + "    " + element);
+                }
+                return true;
+            }
+            else
+                return false;
+        }
         public void renameAddressbook()
         {
             Console.WriteLine("Please enter a new name of Address book");
@@ -48,19 +67,12 @@ namespace AddressBookConsole
                 Console.WriteLine("Name already exists");
             else
             {
-                try
-                {
-                    DBConnection.openDbConnection();
-                    DBConnection.CMD = new SqlCommand("update AddressBooks set name = '" + newBookName +"' where id = "+addressBook.AddressBook_ID, DBConnection.CONNECTION);
-                    DBConnection.CMD.ExecuteNonQuery();
-                    Console.WriteLine("Successfully name changed");
-                }
-                finally
-                {
-                    if (DBConnection.CONNECTION != null)
-                        DBConnection.closeDbConnection();
-                    DBConnection.CMD.Dispose();
-                }
+                DBConnection.openDbConnection();
+                DBConnection.CMD = new SqlCommand("update AddressBooks set name = '" + newBookName +"' where id = "+addressBook.AddressBook_ID, DBConnection.CONNECTION);
+                DBConnection.CMD.ExecuteNonQuery();
+                Console.WriteLine("Successfully name changed");
+                DBConnection.closeDbConnection();
+                bookList = addressBook.loadAllAddressBooks();
             }
         }
         public bool deleteAddressBook()
@@ -70,6 +82,7 @@ namespace AddressBookConsole
             DBConnection.CMD.ExecuteNonQuery();
             Console.WriteLine("Successfully deleted");
             DBConnection.closeDbConnection();
+            bookList = addressBook.loadAllAddressBooks();
             return false;
         }
         public void display()

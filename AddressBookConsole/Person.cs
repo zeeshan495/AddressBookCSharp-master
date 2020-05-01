@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,34 @@ namespace AddressBookConsole
 {
     class Person
     {
-        public string name { get; set; }
+        ArrayList personsList;
+        public int personId { get; set; }
+        public string firstName { get; set; }
+        public string lastName { get; set; }
+        public int mobileNumber { get; set; }
         public string address { get; set; }
         public string city { get; set; }
         public string state { get; set; }
-        public int zip { get; set; }
-        public int number { get; set; }
+        public bool loadPersonByName(string personName)
+        {
+            return false;
+        }
+        public bool loadPersonById(int personId)
+        {
+            return false;
+        }
+        public ArrayList loadAllPersons()
+        {
+            return personsList;
+        }
+        public bool isPersonExist(string person)
+        {
+            if (personsList.Contains(person))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
     }
 }

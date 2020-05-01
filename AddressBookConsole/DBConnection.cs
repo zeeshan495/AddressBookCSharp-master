@@ -19,7 +19,8 @@ namespace AddressBookConsole
         }
         public static void openDbConnection()
         {
-            CONNECTION.Open();
+            if(CONNECTION.State == ConnectionState.Closed)
+                CONNECTION.Open();
         }
 
         public static void loadByID(string spName, string ID)
@@ -39,7 +40,7 @@ namespace AddressBookConsole
         }
         public static void closeDbConnection()
         {
-            if (DBConnection.CONNECTION != null)
+            if (CONNECTION.State == ConnectionState.Open)
             {
                 CONNECTION.Close();
                 DBConnection.CMD.Dispose();

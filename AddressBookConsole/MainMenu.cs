@@ -37,7 +37,7 @@ namespace AddressBookConsole
                         addressBookMenu.createAddressBook();
                         break;
                     case "2":
-                        if (!addressBook.DisplayAddressBooks())
+                        if (!addressBookMenu.DisplayAddressBooks())
                             Console.WriteLine("Address books are not available. Please add Address books.");
                         else
                         {
@@ -46,7 +46,7 @@ namespace AddressBookConsole
                         }
                         break;
                     case "3":
-                        if(!addressBook.DisplayAddressBooks())
+                        if(!addressBookMenu.DisplayAddressBooks())
                             Console.WriteLine("Address books are not available. Please add Address books.");
                         break;
                     case "4":
@@ -82,13 +82,13 @@ namespace AddressBookConsole
                         flag = addressBookMenu.deleteAddressBook();
                         break;
                     case "3":
-                        personMenu.edit();
+                        personMenu.addPerson();
                         break;
                     case "4":
-                        personMenu.display();
+                        personMenu.editPerson();
                         break;
                     case "5":
-                        personMenu.delete();
+                        personMenu.displayPersons();
                         break;
                     case "7":
                         flag = personMenu.goBack();
