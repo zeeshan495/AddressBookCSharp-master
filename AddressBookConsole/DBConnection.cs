@@ -39,8 +39,11 @@ namespace AddressBookConsole
         }
         public static void closeDbConnection()
         {
-            CONNECTION.Close();
-            //Console.WriteLine("DB closed");
+            if (DBConnection.CONNECTION != null)
+            {
+                CONNECTION.Close();
+                DBConnection.CMD.Dispose();
+            }
         }
     }
 }

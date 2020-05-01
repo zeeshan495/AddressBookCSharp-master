@@ -9,12 +9,12 @@ namespace AddressBookConsole
     class MainMenu
     {
         AddressBookMenu addressBookMenu;
-        PersonMenu subMenu;
+        PersonMenu personMenu;
         AddressBook addressBook;
         Person person;
         public MainMenu()
         {
-            subMenu = new PersonMenu();
+            personMenu = new PersonMenu();
             person = new Person();
             addressBookMenu = new AddressBookMenu();
             addressBook = new AddressBook();
@@ -41,7 +41,7 @@ namespace AddressBookConsole
                             Console.WriteLine("Address books are not available. Please add Address books.");
                         else
                         {
-                            if (addressBookMenu.editAddressBook())
+                            if (addressBookMenu.selectAddressBook())
                                 DisplaySubMenu();
                         }
                         break;
@@ -66,30 +66,32 @@ namespace AddressBookConsole
             {
                 Console.WriteLine("Please enter a choice");
                 Console.WriteLine("select 1 to rename an Address book");
-                Console.WriteLine("select 2 to add new person");
-                Console.WriteLine("select 3 to edit person details");
-                Console.WriteLine("select 4 to display persons from Address Book");
-                Console.WriteLine("select 5 to delete persons from Address Book");
-                Console.WriteLine("select 6 to go back menu");
+                Console.WriteLine("select 2 to delete an Address book");
+                Console.WriteLine("select 3 to add new person");
+                Console.WriteLine("select 4 to edit person details");
+                Console.WriteLine("select 5 to display persons from Address Book");
+                Console.WriteLine("select 6 to delete persons from Address Book");
+                Console.WriteLine("select 7 to go back menu");
                 string choice = Console.ReadLine();
                 switch (choice)
                 {
                     case "1":
+                        addressBookMenu.renameAddressbook();
                         break;
                     case "2":
-                        subMenu.add();
+                        flag = addressBookMenu.deleteAddressBook();
                         break;
                     case "3":
-                        subMenu.edit();
+                        personMenu.edit();
                         break;
                     case "4":
-                        subMenu.display();
+                        personMenu.display();
                         break;
                     case "5":
-                        subMenu.delete();
+                        personMenu.delete();
                         break;
-                    case "6":
-                        flag = subMenu.goBack();
+                    case "7":
+                        flag = personMenu.goBack();
                         break;
                     default:
                         Console.WriteLine("please enter valid option");

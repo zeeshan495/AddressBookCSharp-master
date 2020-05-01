@@ -9,7 +9,7 @@ namespace AddressBookConsole
 {
     class AddressBook
     {
-        public bool isDataAvailable;
+        //public bool isDataAvailable;
         public int AddressBook_ID { get; set; }
         public string AddressBook_Name { get; set; }
         //SqlDataReader oReader;
@@ -21,17 +21,32 @@ namespace AddressBookConsole
         }
         public bool loadAddressBookByName(string pBookName)
         {
-                if (bookslist.Contains(pBookName))
+            if (isAddressBookAvailable(pBookName))
+            {
+                AddressBook_Name = pBookName;
+                
+                try
+            {
+                DBConnection.openDbConnection();
+                DBConnection.CMD = new SqlCommand("select * from AddressBooks where name = '"+ pBookName+"'", DBConnection.CONNECTION);
+                SqlDataReader oReader = DBConnection.CMD.ExecuteReader();
+                while (oReader.Read())
                 {
-                    AddressBook_Name = pBookName;
-                    isDataAvailable = true;
-                    return isDataAvailable;
+                    AddressBook_Name = oReader["name"].ToString();
+                    AddressBook_ID = Convert.ToInt32(oReader["id"]);
                 }
-                else
-                {
-                    isDataAvailable = false;
-                    return isDataAvailable;
-                }
+                return true;
+            }
+            finally
+            {
+                if (DBConnection.CONNECTION != null)
+                    DBConnection.closeDbConnection();
+                DBConnection.CMD.Dispose();
+            }
+            
+            } 
+            else
+                return false;
         }
 
         public bool DisplayAddressBooks()
@@ -47,18 +62,15 @@ namespace AddressBookConsole
                     // Console.WriteLine(element.Key + "   "+ element.Value);
                     Console.WriteLine(i++ +"    "+element);
                 }
-                isDataAvailable = true;
-                return isDataAvailable;
+                return true;
             }
             else
-            {
-                isDataAvailable = false;
-                return isDataAvailable;
-            }
+                return false;
         }
 
         public  void addAddressBook(string pBookName)
         {
+            bool isDataAvailable;
             try
             {
                 isDataAvailable = loadAddressBookByName(pBookName);
@@ -93,7 +105,7 @@ namespace AddressBookConsole
                 bookslist = new ArrayList();
                 while (oReader.Read())
                 {
-                    bookslist.Add(oReader["name"].ToString());
+                    bookslist.Add(oReader["name"].ToString().ToLower());
                 }    
                 oReader.Close();
                 return bookslist;
@@ -105,5 +117,16 @@ namespace AddressBookConsole
                 DBConnection.CMD.Dispose();
             }
         }
+
+        public bool isAddressBookAvailable(string pBookName)
+        {
+            if (bookslist.Contains(pBookName))
+            {
+                return true;
+            }
+            else
+                return false;
+        }
+
     }
 }
