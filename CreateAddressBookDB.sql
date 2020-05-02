@@ -2,7 +2,7 @@ USE [master]
 GO
 
 /****** Object:  Database [AddressBookDB]    Script Date: 5/2/2020 7:59:28 PM ******/
-DROP DATABASE [AddressBookDB]
+DROP DATABASE IF EXISTS [AddressBookDB]
 GO
 
 /****** Object:  Database [AddressBookDB]    Script Date: 5/2/2020 7:59:28 PM ******/

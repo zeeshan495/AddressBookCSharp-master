@@ -9,6 +9,10 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+Drop table IF EXISTS [dbo].[persons]
+Go
+Drop table IF EXISTS [dbo].[AddressBooks]
+Go
 
 CREATE TABLE [dbo].[AddressBooks](
 	[ID] [int] IDENTITY(1,1) NOT NULL,
@@ -34,6 +38,8 @@ GO
 
 SET QUOTED_IDENTIFIER ON
 GO
+
+
 
 CREATE TABLE [dbo].[persons](
 	[Persons_ID] [int] IDENTITY(1,1) NOT NULL,
