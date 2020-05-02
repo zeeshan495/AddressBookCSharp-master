@@ -6,7 +6,7 @@ DROP DATABASE IF EXISTS [AddressBookDB]
 GO
 
 /****** Object:  Database [AddressBookDB]    Script Date: 5/2/2020 7:59:28 PM ******/
-CREATE DATABASE [AddressBookDB]
+CREATE DATABASE  [AddressBookDB]
  CONTAINMENT = NONE
  ON  PRIMARY 
 ( NAME = N'AddressBookDB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.MSSQLSERVER\MSSQL\DATA\AddressBookDB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
