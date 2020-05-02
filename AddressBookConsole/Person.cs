@@ -18,7 +18,7 @@ namespace AddressBookConsole
         public string address { get; set; }
         public string city { get; set; }
         public string state { get; set; }
-        public static int ADDRESSBOOKID { get; set; }
+        public static Int32 ADDRESSBOOKID { get; set; }
         public Person()
         {
             personsList = new ArrayList();

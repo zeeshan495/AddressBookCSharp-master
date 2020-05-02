@@ -25,7 +25,7 @@ namespace AddressBookConsole
             flag = true;
             while (flag)
             {
-                Console.WriteLine("Please enter a choice");
+                Console.WriteLine("\nPlease enter a choice");
                 Console.WriteLine("select 1 to add new Address Book");
                 Console.WriteLine("select 2 to select Address Book");
                 Console.WriteLine("select 3 to display Address Books");
@@ -67,14 +67,13 @@ namespace AddressBookConsole
             person.loadAllPersons();
             while (flag)
             {
-                Console.WriteLine("Please enter a choice");
+                Console.WriteLine("\nPlease enter a choice");
                 Console.WriteLine("select 1 to rename an Address book");
                 Console.WriteLine("select 2 to delete an Address book");
                 Console.WriteLine("select 3 to add new person");
-                Console.WriteLine("select 4 to edit person details");
-                Console.WriteLine("select 5 to display persons from Address Book");
-                Console.WriteLine("select 6 to delete persons from Address Book");
-                Console.WriteLine("select 7 to go back menu");
+                Console.WriteLine("select 4 to display persons from Address Book");
+                Console.WriteLine("select 5 to delete persons from Address Book");
+                Console.WriteLine("select 6 to go back menu");
                 string choice = Console.ReadLine();
                 switch (choice)
                 {
@@ -88,16 +87,13 @@ namespace AddressBookConsole
                         personMenu.addPerson(addressBookId);
                         break;
                     case "4":
-                        personMenu.editPerson();
-                        break;
-                    case "5":
                         personMenu.displayPersons();
                         break;
-                    case "6":
+                    case "5":
                         personMenu.removePerson();
                         break;
-                    case "7":
-                        flag = personMenu.goBack();
+                    case "6":
+                        flag    =   personMenu.goBack();
                         break;
                     default:
                         Console.WriteLine("please enter valid option");

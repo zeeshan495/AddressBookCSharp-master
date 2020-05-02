@@ -24,7 +24,7 @@ namespace AddressBookConsole
             nameOfAddressBook = Console.ReadLine();
             addressBook.saveAddressBook(nameOfAddressBook);
         }
-        public int selectAddressBook()
+        public Int32 selectAddressBook()
         {
             Console.WriteLine("Please enter a name of Address Book");
             nameOfAddressBook = Console.ReadLine();
@@ -77,7 +77,9 @@ namespace AddressBookConsole
         public bool deleteAddressBook()
         {
             DBConnection.openDbConnection();
-            DBConnection.CMD = new SqlCommand("delete AddressBooks where name = '" + addressBook.AddressBook_Name + "'", DBConnection.CONNECTION);
+            DBConnection.CMD = new SqlCommand(
+                "delete Persons where addressbook_id = '" + Person.ADDRESSBOOKID + "'"+
+                "delete AddressBooks where name = '" + addressBook.AddressBook_Name + "'", DBConnection.CONNECTION);
             DBConnection.CMD.ExecuteNonQuery();
             Console.WriteLine("Successfully deleted");
             DBConnection.closeDbConnection();
