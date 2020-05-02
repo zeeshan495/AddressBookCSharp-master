@@ -20,15 +20,14 @@ namespace AddressBookConsole
             Console.WriteLine("Please enter a First name");
             person.firstName = Console.ReadLine();
             Console.WriteLine("Please enter a Last name");
-            person.lastName = Console.ReadLine();
-            Console.WriteLine("Please enter a Mobile Number");
-            person.mobileNumber = Convert.ToInt64(Console.ReadLine());
-            person.AddressBookID = laddressBookId;
+            person.lastName = Console.ReadLine();       
             isPersonExist   =   person.isPersonExist();
             if (isPersonExist)
                 Console.WriteLine("Person Already exist");
             else
             {
+                Console.WriteLine("Please enter a Mobile Number");
+                person.mobileNumber = Convert.ToInt64(Console.ReadLine());
                 person.savePerson();
                 Console.WriteLine("Successfully added a new person");
             }
@@ -41,20 +40,31 @@ namespace AddressBookConsole
         {
             Console.WriteLine("working in progress");
         }
-        public void displayPersons(int pAddressBookId)
+        public void displayPersons()
         {
-            ArrayList personList = person.loadAllPersons(pAddressBookId);
+            ArrayList personList = person.loadAllPersons();
             if (personList.Count > 0)
             {
-                int i = 1;
-                Console.WriteLine("S.No     FirstName       LastName        Mobile");
+                Console.WriteLine("Id     FirstName       LastName        Mobile");
                 foreach (Person lperson in personList)
                 {
-                    Console.WriteLine(" " + i++ + "         " + lperson.firstName + "       " + lperson.lastName + "        " + lperson.mobileNumber);
+                    Console.WriteLine(" " + lperson.personId++ + "         " + lperson.firstName + "       " + lperson.lastName + "        " + lperson.mobileNumber);
                 }
             }
             else
                 Console.WriteLine("Address Book is empty");
+        }
+        public void removePerson()
+        {
+            Int32 lPersonID;
+            bool lPersonExist;
+            Console.WriteLine("Please enter a ID of person");
+            lPersonID = Convert.ToInt32(Console.ReadLine());
+            lPersonExist = person.isPersonExistByID(lPersonID);
+            if (!lPersonExist)
+                Console.WriteLine("Person is not available");
+            else
+                person.deletePerson(lPersonID);
         }
         public bool goBack()
         {

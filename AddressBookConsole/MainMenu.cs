@@ -63,7 +63,8 @@ namespace AddressBookConsole
         private void DisplaySubMenu()
         {
             bool flag = true;
-            person.loadAllPersons(addressBookId);
+            Person.ADDRESSBOOKID = addressBookId;
+            person.loadAllPersons();
             while (flag)
             {
                 Console.WriteLine("Please enter a choice");
@@ -90,7 +91,10 @@ namespace AddressBookConsole
                         personMenu.editPerson();
                         break;
                     case "5":
-                        personMenu.displayPersons(addressBookId);
+                        personMenu.displayPersons();
+                        break;
+                    case "6":
+                        personMenu.removePerson();
                         break;
                     case "7":
                         flag = personMenu.goBack();
