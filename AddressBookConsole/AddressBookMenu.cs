@@ -13,6 +13,7 @@ namespace AddressBookConsole
         string nameOfAddressBook;
         AddressBook addressBook;
         ArrayList bookList;
+        
         public AddressBookMenu()
         {
             addressBook = new AddressBook();
@@ -21,23 +22,23 @@ namespace AddressBookConsole
         {
             Console.WriteLine("Please enter a name of Address Book");
             nameOfAddressBook = Console.ReadLine();
-            addressBook.addAddressBook(nameOfAddressBook);
+            addressBook.saveAddressBook(nameOfAddressBook);
         }
-        public bool selectAddressBook()
+        public int selectAddressBook()
         {
-            bool isAddressBookAvailable = false;
             Console.WriteLine("Please enter a name of Address Book");
             nameOfAddressBook = Console.ReadLine();
+            bool isAddressBookAvailable = false;
             isAddressBookAvailable = addressBook.loadAddressBookByName(nameOfAddressBook.ToLower());
             if(isAddressBookAvailable)
             {
                 Console.WriteLine("AddressBook is available. Go for further operations");
-                return isAddressBookAvailable;
+                return addressBook.AddressBook_ID;
             }
             else
             {
                 Console.WriteLine("AddressBook is not available");
-                return isAddressBookAvailable;
+                return addressBook.AddressBook_ID;
             }       
         }
         public bool DisplayAddressBooks()
@@ -45,13 +46,11 @@ namespace AddressBookConsole
             bookList = addressBook.loadAllAddressBooks();
             if (bookList.Count > 0)
             {
-                Console.WriteLine("ID   Book name");
-                // ICollection keys = bookslist.Keys;
+                Console.WriteLine("S.No   Book name");
                 
                 int i = 1;
                 foreach (var element in bookList)
                 {
-                    // Console.WriteLine(element.Key + "   "+ element.Value);
                     Console.WriteLine(i++ + "    " + element);
                 }
                 return true;

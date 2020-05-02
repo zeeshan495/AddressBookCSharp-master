@@ -10,19 +10,19 @@ namespace AddressBookConsole
     {
         AddressBookMenu addressBookMenu;
         PersonMenu personMenu;
-        AddressBook addressBook;
         Person person;
+        int addressBookId;
         public MainMenu()
         {
             personMenu = new PersonMenu();
             person = new Person();
             addressBookMenu = new AddressBookMenu();
-            addressBook = new AddressBook();
         }
         public void DisplayMainMenu()
         {
-            Console.WriteLine("Display main menu");
-            bool flag = true;
+            bool flag;
+            //Console.WriteLine("Display main menu");
+            flag = true;
             while (flag)
             {
                 Console.WriteLine("Please enter a choice");
@@ -41,7 +41,8 @@ namespace AddressBookConsole
                             Console.WriteLine("Address books are not available. Please add Address books.");
                         else
                         {
-                            if (addressBookMenu.selectAddressBook())
+                            addressBookId = addressBookMenu.selectAddressBook();
+                            if (addressBookId   !=  0)
                                 DisplaySubMenu();
                         }
                         break;
@@ -59,9 +60,10 @@ namespace AddressBookConsole
             }
         }
         //Menu for persons operations
-        public void DisplaySubMenu()
+        private void DisplaySubMenu()
         {
             bool flag = true;
+            person.loadAllPersons(addressBookId);
             while (flag)
             {
                 Console.WriteLine("Please enter a choice");
@@ -82,13 +84,13 @@ namespace AddressBookConsole
                         flag = addressBookMenu.deleteAddressBook();
                         break;
                     case "3":
-                        personMenu.addPerson();
+                        personMenu.addPerson(addressBookId);
                         break;
                     case "4":
                         personMenu.editPerson();
                         break;
                     case "5":
-                        personMenu.displayPersons();
+                        personMenu.displayPersons(addressBookId);
                         break;
                     case "7":
                         flag = personMenu.goBack();

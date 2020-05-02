@@ -37,7 +37,7 @@ namespace AddressBookConsole
                 return false;
         }
 
-        public  void addAddressBook(string pBookName)
+        public  void saveAddressBook(string pBookName)
         {
             bool isDataAvailable;
             isDataAvailable = loadAddressBookByName(pBookName);
