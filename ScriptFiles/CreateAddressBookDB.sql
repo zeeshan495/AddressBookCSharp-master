@@ -2,8 +2,8 @@ USE [master]
 GO
 
 /****** Object:  Database [AddressBookDB]    Script Date: 5/2/2020 7:59:28 PM ******/
-DROP DATABASE IF EXISTS [AddressBookDB]
-GO
+IF EXISTS (SELECT 1 FROM sys.databases WHERE NAME='AddressBookDB')
+       DROP DATABASE [AddressBookDB];
 
 /****** Object:  Database [AddressBookDB]    Script Date: 5/2/2020 7:59:28 PM ******/
 CREATE DATABASE  [AddressBookDB]
