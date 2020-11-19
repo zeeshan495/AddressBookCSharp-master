@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,9 +27,11 @@ namespace AddressBookConsole
         }
         public Int32 selectAddressBook()
         {
+            bool isAddressBookAvailable = false;
             Console.WriteLine("Please enter a name of Address Book");
             nameOfAddressBook = Console.ReadLine();
-            bool isAddressBookAvailable = false;
+            //Trace.Assert(nameOfAddressBook.Equals("a"));
+            Debug.Assert(!(nameOfAddressBook == "") , "Given input is empty");
             isAddressBookAvailable = addressBook.loadAddressBookByName(nameOfAddressBook.ToLower());
             if(isAddressBookAvailable)
             {

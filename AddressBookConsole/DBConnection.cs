@@ -20,7 +20,9 @@ namespace AddressBookConsole
         public static void openDbConnection()
         {
             if(CONNECTION.State == ConnectionState.Closed)
+            {
                 CONNECTION.Open();
+            }                
         }
 
         public static void loadByID(string spName, string ID)

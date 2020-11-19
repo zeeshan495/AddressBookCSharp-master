@@ -53,6 +53,7 @@ namespace AddressBookConsole
                     case "4":
                         flag = false;
                         Console.WriteLine("Thank You!");
+                        System.Environment.Exit(0);
                         break;
                     default: Console.WriteLine("please enter valid option");
                         break;
